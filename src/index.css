@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-midnight text-snowlight font-body antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(159, 216, 234, 0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(255, 209, 102, 0.05), transparent);
+}
+
+::selection {
+  background: rgba(159, 216, 234, 0.35);
+  color: #0b1622;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0b1622;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e3350;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2a4666;
+}
+
+/* Visible keyboard focus everywhere, on top of Tailwind's utility resets */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #9fd8ea;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Scroll-reveal primitive used by Projects section */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}
+.reveal.is-visible {
+  animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom snow cursor */
+body.custom-cursor-active,
+body.custom-cursor-active * {
+  cursor: none !important;
+}
+
+.snow-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+  filter: drop-shadow(0 0 4px rgba(232, 246, 255, 0.55));
+  transition: filter 0.15s ease;
+}
+.snow-cursor.cursor-click {
+  filter: drop-shadow(0 0 10px rgba(159, 216, 234, 0.95))
+    drop-shadow(0 0 18px rgba(255, 209, 102, 0.6));
+}
+
+.cursor-glow-ping {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  margin-top: -5px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(159, 216, 234, 0.9), rgba(159, 216, 234, 0) 70%);
+  pointer-events: none;
+  z-index: 9998;
+  animation: glowPing 0.65s ease-out forwards;
+}
+@keyframes glowPing {
+  0% {
+    transform: scale(0.4);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(6);
+    opacity: 0;
+  }
+}
+
+/* Snow dripping off the hero portrait's bottom rim, on hover */
+.drip-flake {
+  position: absolute;
+  bottom: 8%;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: #e8f6ff;
+  opacity: 0;
+  animation: dripFall 1.8s ease-in infinite;
+  animation-play-state: paused;
+}
+.group:hover .drip-flake {
+  animation-play-state: running;
+}
+@keyframes dripFall {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(1);
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(38px) scale(0.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snow-cursor,
+  .cursor-glow-ping,
+  .drip-flake {
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
